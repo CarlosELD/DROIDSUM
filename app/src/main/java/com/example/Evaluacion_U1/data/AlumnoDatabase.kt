@@ -18,12 +18,9 @@ import com.example.Evaluacion_U1.modelos.ResumenKardex
     version = 1, exportSchema = false)
 abstract class AlumnoDatabase : RoomDatabase(){
     abstract fun alumnoDAO(): AlumnoDAO
-
     companion object {
-
         private const val PREF_NAME = "DatabaseLastAccessPrefs"
         private const val KEY_LAST_ACCESS_DATE = "lastAccessDate"
-
         @Volatile
         private var Instance: AlumnoDatabase? = null
 

@@ -15,59 +15,27 @@ interface AppContainer{
     val workerRepository:WorkerRepository
 }
 
-
 class DefaultAppContainer(private val context: Context): AppContainer {
-    private val BASE_URL =
-        "https://sicenet.surguanajuato.tecnm.mx/"
-
+    private val BASE_URL ="https://sicenet.surguanajuato.tecnm.mx/"
     private val interceptor= CookiesInterceptor()
-
     private val cliente = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-    private val retrofit = Retrofit.Builder()
-        .addConverterFactory(SimpleXmlConverterFactory.create())
-        .baseUrl(BASE_URL).client(cliente)
-        .build()
-
-    private val retrofitService : AlumnoApiService by lazy {
-        retrofit.create(AlumnoApiService::class.java)
-    }
-    override val alumnosRepositoryDB: AlumnosRepositoryDB by lazy {
-        OfflineAlumnoRepository(AlumnoDatabase.getDatabase(context).alumnoDAO())
-    }
-
-    override val workerRepository: WorkerRepository by lazy {
-        WorkerManagement(context)
-    }
-
-    override val alumnosRepository: AlumnosRepository by lazy {
-        NetworkAlumnosRepository(retrofitService)
-    }
+    private val retrofit = Retrofit.Builder().addConverterFactory(SimpleXmlConverterFactory.create()).baseUrl(BASE_URL).client(cliente).build()
+    private val retrofitService : AlumnoApiService by lazy {retrofit.create(AlumnoApiService::class.java)}
+    override val alumnosRepositoryDB: AlumnosRepositoryDB by lazy {OfflineAlumnoRepository(AlumnoDatabase.getDatabase(context).alumnoDAO())}
+    override val workerRepository: WorkerRepository by lazy {WorkerManagement(context)}
+    override val alumnosRepository: AlumnosRepository by lazy {NetworkAlumnosRepository(retrofitService)}
 }
 
 class CookiesInterceptor : Interceptor {
-
     private val cookieStore = mutableMapOf<String, String>()
-
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
-
         val cookiesHeader = StringBuilder()
-        for ((name, value) in cookieStore) {
-            if (cookiesHeader.isNotEmpty()) {
-                cookiesHeader.append("; ")
-            }
+        for ((name, value) in cookieStore) {if (cookiesHeader.isNotEmpty()) {cookiesHeader.append("; ")}
             cookiesHeader.append("$name=$value")
         }
-
-        if (cookiesHeader.isNotEmpty()) {
-            request = request.newBuilder()
-                .header("Cookie", cookiesHeader.toString())
-                .build()
-        }
-
+        if (cookiesHeader.isNotEmpty()) {request = request.newBuilder().header("Cookie", cookiesHeader.toString()).build()}
         val response = chain.proceed(request)
-
         val receivedCookies = response.headers("Set-Cookie")
         for (cookie in receivedCookies) {
             val parts = cookie.split(";")[0].split("=")
@@ -77,7 +45,6 @@ class CookiesInterceptor : Interceptor {
                 cookieStore[name] = value
             }
         }
-
         return response
     }
 }

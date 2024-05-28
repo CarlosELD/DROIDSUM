@@ -45,58 +45,28 @@ interface WorkerRepository {
 
 class WorkerManagement(context: Context): WorkerRepository {
     private val workManager = WorkManager.getInstance(context)
-
     override fun getAccess(matricula: String, password: String, tipoUsuario: String) {
-        var data = workDataOf(
-            "matricula" to matricula,
-            "password" to password,
-            "tipo" to tipoUsuario
-        )
-        var workerLogin = OneTimeWorkRequestBuilder<WorkerRequestLogin>()
-            .setInputData(data)
-            .addTag("WorkerAccess")
-            .build()
-
-        var workerDbLogin = OneTimeWorkRequestBuilder<WorkerDBLogin>()
-            .addTag("WorkerAccessInfo")
-            .build()
-
-        workManager.beginUniqueWork(
-            "acceso",
-            ExistingWorkPolicy.REPLACE,
-            workerLogin
-        ).then(workerDbLogin)
-            .enqueue()
+        val data = workDataOf("matricula" to matricula, "password" to password, "tipo" to tipoUsuario)
+        val workerLogin = OneTimeWorkRequestBuilder<WorkerRequestLogin>().setInputData(data).addTag("WorkerAccess").build()
+        val workerDbLogin = OneTimeWorkRequestBuilder<WorkerDBLogin>().addTag("WorkerAccessInfo").build()
+        workManager.beginUniqueWork("acceso", ExistingWorkPolicy.REPLACE,workerLogin).then(workerDbLogin).enqueue()
     }
-
     override fun getFinales(modoEducativo:String) {
-        var data = workDataOf(
-            "modoEducativo" to modoEducativo
-        )
-
-        var workerFinales = OneTimeWorkRequestBuilder<WorkerRequestFinales>()
-            .setInputData(data)
-            .addTag("WorkerFinales")
-            .build()
-
-        var workerDbFinales = OneTimeWorkRequestBuilder<WorkerDBFinales>()
-            .addTag("WorkerFinalesInfo")
-            .build()
-
+        val data = workDataOf("modoEducativo" to modoEducativo)
+        val workerFinales = OneTimeWorkRequestBuilder<WorkerRequestFinales>().setInputData(data).addTag("WorkerFinales").build()
+        val workerDbFinales = OneTimeWorkRequestBuilder<WorkerDBFinales>().addTag("WorkerFinalesInfo").build()
         workManager.beginUniqueWork(
             "finalesWorker",
             ExistingWorkPolicy.REPLACE,
             workerFinales
-        ).then(workerDbFinales)
-            .enqueue()
+        ).then(workerDbFinales).enqueue()
     }
-
     override fun getParciales() {
-        var workerParciales = OneTimeWorkRequestBuilder<WorkerRequestParciales>()
+        val workerParciales = OneTimeWorkRequestBuilder<WorkerRequestParciales>()
             .addTag("WorkerParciales")
             .build()
 
-        var workerDbParciales= OneTimeWorkRequestBuilder<WorkerDBParciales>()
+        val workerDbParciales= OneTimeWorkRequestBuilder<WorkerDBParciales>()
             .addTag("WorkerParcialesInfo")
             .build()
 
@@ -107,16 +77,14 @@ class WorkerManagement(context: Context): WorkerRepository {
         ).then(workerDbParciales)
             .enqueue()
     }
-
     override fun getHorario() {
-        var workerHorario = OneTimeWorkRequestBuilder<WorkerRequestHorario>()
+        val workerHorario = OneTimeWorkRequestBuilder<WorkerRequestHorario>()
             .addTag("WorkerHorario")
             .build()
 
-        var workerDbHorario = OneTimeWorkRequestBuilder<WorkerDBHorario>()
+        val workerDbHorario = OneTimeWorkRequestBuilder<WorkerDBHorario>()
             .addTag("WorkerHorarioInfo")
             .build()
-
         workManager.beginUniqueWork(
             "horarioWorker",
             ExistingWorkPolicy.REPLACE,
@@ -126,16 +94,13 @@ class WorkerManagement(context: Context): WorkerRepository {
     }
 
     override fun getKardex(lineamiento: String) {
-        var data = workDataOf(
-            "lineamiento" to lineamiento,
-        )
-
-        var workerKardex = OneTimeWorkRequestBuilder<WorkerRequestKardex>()
+        val data = workDataOf("lineamiento" to lineamiento)
+        val workerKardex = OneTimeWorkRequestBuilder<WorkerRequestKardex>()
             .setInputData(data)
             .addTag("WorkerKardex")
             .build()
 
-        var workerDbKardex = OneTimeWorkRequestBuilder<WorkerDBKardex>()
+        val workerDbKardex = OneTimeWorkRequestBuilder<WorkerDBKardex>()
             .addTag("WorkerKardexInfo")
             .build()
 
@@ -146,18 +111,14 @@ class WorkerManagement(context: Context): WorkerRepository {
         ).then(workerDbKardex)
             .enqueue()
     }
-
     override fun getKardex2(lineamiento: String) {
-        var data = workDataOf(
-            "lineamiento" to lineamiento,
-        )
-
-        var workerKardex2 = OneTimeWorkRequestBuilder<WorkerRequestKardex2>()
+        val data = workDataOf("lineamiento" to lineamiento)
+        val workerKardex2 = OneTimeWorkRequestBuilder<WorkerRequestKardex2>()
             .setInputData(data)
             .addTag("WorkerKardex2")
             .build()
 
-        var workerDbKardex2 = OneTimeWorkRequestBuilder<WorkerDBKardex2>()
+        val workerDbKardex2 = OneTimeWorkRequestBuilder<WorkerDBKardex2>()
             .addTag("WorkerKardex2Info")
             .build()
 
@@ -170,19 +131,16 @@ class WorkerManagement(context: Context): WorkerRepository {
     }
 
     override fun getResumenKardex(lineamiento: String) {
-        var data = workDataOf(
+        val data = workDataOf(
             "lineamiento" to lineamiento,
         )
-
-        var workerRK = OneTimeWorkRequestBuilder<WorkerRequestResumenKardex>()
+        val workerRK = OneTimeWorkRequestBuilder<WorkerRequestResumenKardex>()
             .setInputData(data)
             .addTag("WorkerResumenKardex")
             .build()
-
-        var workerDbRK = OneTimeWorkRequestBuilder<WorkerDBResumenKardex>()
+        val workerDbRK = OneTimeWorkRequestBuilder<WorkerDBResumenKardex>()
             .addTag("WorkerResumenKardexInfo")
             .build()
-
         workManager.beginUniqueWork(
             "kardexResumenWorker",
             ExistingWorkPolicy.REPLACE,

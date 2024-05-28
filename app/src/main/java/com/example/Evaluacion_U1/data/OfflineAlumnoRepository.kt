@@ -53,8 +53,6 @@ class OfflineAlumnoRepository(private val alumnoDAO: AlumnoDAO):AlumnosRepositor
      override suspend fun getParcialesDB(): MutableList<ParcialesAlumno>? =alumnoDAO.getCalificacionesPUnidad()
      override suspend fun getFinalesDB(): MutableList<FinalesAlumno>? =alumnoDAO.getCalificacionFinal()
      override suspend fun getResumenKardexDB():ResumenKardex? = alumnoDAO.getResumenKardex()
-
-
      override suspend fun deleteCredenciales()=alumnoDAO.deleteMatricula()
      override suspend fun deleteFinales()=alumnoDAO.deleteCalificacionFinal()
      override suspend fun deleteHorario()=alumnoDAO.deleteCargaAcademica()
