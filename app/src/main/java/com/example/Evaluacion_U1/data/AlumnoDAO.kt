@@ -13,7 +13,6 @@ import com.example.Evaluacion_U1.modelos.ResumenKardex
 
 @Dao
 interface AlumnoDAO {
-
     @Insert
     suspend fun insertMatricula(credencialesAlumno: CredencialesAlumno)
     @Query("SELECT * from Credenciales where matricula=:mat")
