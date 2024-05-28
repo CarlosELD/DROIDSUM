@@ -8,14 +8,12 @@ import androidx.room.PrimaryKey
 data class KardexMateria(
     @PrimaryKey
     var ClvMat: String="",
-
     var A1: String="",
     var A2: String="",
     var A3: String="",
     var Acred: String="",
     var Calif: Int=0,
     var Cdts: Int=0,
-
     var ClvOfiMat: String="",
     var Materia: String="",
     var P1: String="",

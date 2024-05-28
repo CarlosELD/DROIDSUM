@@ -5,10 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "ResumenKardex")
 data class ResumenKardex(
-
     @PrimaryKey
     val PromedioGral: Double=0.0,
-
     val AvanceCdts: Double=0.0,
     val CdtsAcum: Int=0,
     val CdtsPlan: Int=0,

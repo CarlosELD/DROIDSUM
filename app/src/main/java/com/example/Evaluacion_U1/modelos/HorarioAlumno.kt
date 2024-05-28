@@ -20,5 +20,4 @@ data class HorarioAlumno(
     var Sabado: String="",
     var Semipresencial: String="",
     var Viernes: String=""
-
 )

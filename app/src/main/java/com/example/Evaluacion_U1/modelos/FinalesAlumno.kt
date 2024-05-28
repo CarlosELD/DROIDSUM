@@ -5,10 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "Finales")
 data class FinalesAlumno(
-
     @PrimaryKey
     var materia: String="",
-
     var Observaciones: String="",
     var acred: String="",
     var calif: Int=0,

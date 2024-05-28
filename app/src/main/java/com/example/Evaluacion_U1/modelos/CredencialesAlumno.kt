@@ -8,7 +8,6 @@ import java.util.Date
 data class CredencialesAlumno(
    @PrimaryKey
    var matricula:String="",
-
    var acceso:String="",
    var estatus:String="",
    var tipoUsuario:Int=0,
